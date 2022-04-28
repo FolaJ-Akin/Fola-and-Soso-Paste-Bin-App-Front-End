@@ -33,10 +33,10 @@ export default function App(): JSX.Element {
       });
   }
   const handlecount = () => {
-    setcount(count+1);
+    setcount(count + 1);
     setSummary("");
     setTitle(" ");
-  }
+  };
 
   useEffect(() => {
     axios
@@ -55,18 +55,24 @@ export default function App(): JSX.Element {
       <h1>Pastebin App</h1>
       <div className="container">
         <div className="first">
-    
-        <input
-          placeholder="new title"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
-        <textarea
-          placeholder="new paste"
-          value={summary}
-          onChange={(event) => setSummary(event.target.value)}
-        />
-        <button onClick={()=> {handleSubmit(); handlecount()}}>Submit text</button>
+          <input
+            placeholder="new title"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <textarea
+            placeholder="new paste"
+            value={summary}
+            onChange={(event) => setSummary(event.target.value)}
+          />
+          <button
+            onClick={() => {
+              handleSubmit();
+              handlecount();
+            }}
+          >
+            Submit text
+          </button>
         </div>
         <div className="listOfTenPastes">
           <h2>10 Most recent Pastes</h2>
@@ -75,7 +81,7 @@ export default function App(): JSX.Element {
               {item.title_text}
               <hr /> {getSummary(item.summary_text)}
             </div>
-        ))}
+          ))}
         </div>
       </div>
     </div>
