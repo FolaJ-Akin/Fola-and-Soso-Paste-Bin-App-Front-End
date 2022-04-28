@@ -13,6 +13,12 @@ export default function App(): JSX.Element {
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
   const [count, setcount] = useState<number>(0);
+  const [selectedPaste, setSelectedPaste] = useState<entry[]>([{
+    entry_id: 1,
+    title_text: 'string',
+    summary_text: 'string',
+    time: '',
+  }])
 
   function handleSubmit() {
     console.log("would send text");
@@ -34,13 +40,13 @@ export default function App(): JSX.Element {
   }
   const handlecount = () => {
     setcount(count + 1);
-    setSummary("");
-    setTitle(" ");
+    setSummary("jhghf");
+    setTitle("ujyht");
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/tenPastes")
+      .get("http://localhost:4000/pastes/tenPastes")
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const receivedtenPastes = response.data;
@@ -49,7 +55,11 @@ export default function App(): JSX.Element {
       })
       .catch((err) => console.error("error when getting entries", err));
   }, [count]);
-
+const filteredTenPastes = tenPastes.filter(filterPaste)
+console.log(filteredTenPastes)
+function filterPaste(item: entry){
+  return item.entry_id !== selectedPaste[0].entry_id
+}
   return (
     <div className="App">
       <h1>Pastebin App</h1>
@@ -76,7 +86,7 @@ export default function App(): JSX.Element {
         </div>
         <div className="listOfTenPastes">
           <h2>10 Most recent Pastes</h2>
-          {tenPastes.map((item) => (
+          {filteredTenPastes.map((item) => (
             <div className="onePasteItem" key={item.entry_id}>
               {item.title_text}
               <hr /> {getSummary(item.summary_text)}
