@@ -12,6 +12,7 @@ export default function App(): JSX.Element {
   const [tenPastes, setTenPastes] = useState<entry[]>([]);
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
+  const [count, setcount] = useState<number>(0);
 
   function handleSubmit() {
     console.log("would send text");
@@ -31,6 +32,11 @@ export default function App(): JSX.Element {
         console.log("axios got error:", error);
       });
   }
+  const handlecount = () => {
+    setcount(count+1);
+    setSummary("");
+    setTitle(" ");
+  }
 
   useEffect(() => {
     axios
@@ -42,31 +48,35 @@ export default function App(): JSX.Element {
         setTenPastes(receivedtenPastes);
       })
       .catch((err) => console.error("error when getting entries", err));
-  }, []);
+  }, [count]);
 
   return (
     <div className="App">
       <h1>Pastebin App</h1>
-      <input
-        placeholder="new title"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-      />
-      <textarea
-        placeholder="new paste"
-        value={summary}
-        onChange={(event) => setSummary(event.target.value)}
-      />
-
-      <button onClick={handleSubmit}>Submit text</button>
-      <hr />
-      <div className="listOfTenPastes">
-        {tenPastes.map((item) => (
-          <div className="onePasteItem" key={item.entry_id}>
-            {item.title_text}
-            <hr /> {getSummary(item.summary_text)}
-          </div>
+      <div className="container">
+        <div className="first">
+    
+        <input
+          placeholder="new title"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <textarea
+          placeholder="new paste"
+          value={summary}
+          onChange={(event) => setSummary(event.target.value)}
+        />
+        <button onClick={()=> {handleSubmit(); handlecount()}}>Submit text</button>
+        </div>
+        <div className="listOfTenPastes">
+          <h2>10 Most recent Pastes</h2>
+          {tenPastes.map((item) => (
+            <div className="onePasteItem" key={item.entry_id}>
+              {item.title_text}
+              <hr /> {getSummary(item.summary_text)}
+            </div>
         ))}
+        </div>
       </div>
     </div>
   );
