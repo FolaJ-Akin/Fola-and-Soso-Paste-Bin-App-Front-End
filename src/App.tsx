@@ -59,7 +59,7 @@ export default function App(): JSX.Element {
         console.log(clickedPaste);
         setClickedPastes(clickedPaste);
         setIsPasteClicked(true);
-      })
+      }) 
       .catch((err) => console.error("error when getting entries", err));
   }
 
